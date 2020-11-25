@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie-edge">
+    <title>To Do Tracker</title>
+    <style>
+        body {
+            padding: 15px;
+            background-color: aquamarine;
+            font-family: sans-serif;
+        }
+        #title {
+            padding: 10px;
+            font-size: 36px;
+            border: 2px solid white ;
+            width: 250px;
+        }
+        #to do header{
+            font-size: 24px;
+        }
+        ul {
+            list-style: none;
+            padding-left: 0;
+            width: 250px;
+        }
+        li {
+            color: #333;
+            background-color: rgb(255, 255, 255, .5);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+    </style>
+
+</head>
+<body>
+    <h1 id="title">To Do Tracker</h1>
+
+    <form>
+        <input type="text" id="user-todo" placeholder="New To Do" required>
+    </form>
+
+    <h2 id="to do header">To Dos</h2>
+
+    <ul>
+       
+    </ul>
+
+    <button id="clear">Clear All</button>
+
+<script>
+    var form = document.querySelector('form');
+    var toDoList = document.querySelector('ul')
+    var button = document.querySelector('button');
+    var input = document.getElementById('user-todo');
+   
+    var toDosArray = localStorage.getItem('todos') ? JSON.parse(localStorage.getItem('todos')) : [];
+
+    localStorage.setItem('todos', JSON.stringify(toDosArray));
+
+    var storage = JSON.parse(localStorage.getItem("todos"));
+
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault(); 
+    toDosArray.push(input.value);
+    localStorage.setItem('todos', JSON.stringify(toDosArray));
+    toDoMaker(input.value);
+    input.value = '';
+});
+
+
+var toDoMaker = function(text) {
+    var toDo = document.createElement('li');
+    toDo.textContent = text;
+    toDoList.appendChild(toDo);
+}
+
+for (var i = 0; i < storage.length; i++){
+    toDoMaker(storage[i]);
+}
+
+button.addEventListener('click', function() {
+    localStorage.clear();
+    while(toDoList.firstChild){
+        toDoList.removeChild(toDoList.firstChild);}
+});
+
+</script>
+
+</body>
+</html>
